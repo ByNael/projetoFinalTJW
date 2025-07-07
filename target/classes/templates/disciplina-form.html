@@ -21,6 +21,12 @@
         <label>Código:</label>
         <input type="text" th:field="*{codigo}" required/>
         <div th:if="${#fields.hasErrors('codigo')}" th:errors="*{codigo}" style="color:red"></div><br/>
+        <label>Ementa:</label>
+        <input type="text" th:field="*{ementa}" required/>
+        <div th:if="${#fields.hasErrors('ementa')}" th:errors="*{ementa}" style="color:red"></div><br/>
+        <label>Carga Horária:</label>
+        <input type="number" th:field="*{cargaHoraria}" required/>
+        <div th:if="${#fields.hasErrors('cargaHoraria')}" th:errors="*{cargaHoraria}" style="color:red"></div><br/>
         <button type="submit">Salvar</button>
         <a th:href="@{/disciplinas}">Cancelar</a>
     </form>

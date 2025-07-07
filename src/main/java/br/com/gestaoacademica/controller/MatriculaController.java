@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.Optional;
 
 @Controller
@@ -22,8 +23,21 @@ public class MatriculaController {
     private TurmaRepository turmaRepository;
 
     @GetMapping
-    public String listarMatriculas(Model model) {
-        model.addAttribute("matriculas", matriculaRepository.findAll());
+    public String listarMatriculas(@RequestParam(value = "alunoId", required = false) Long alunoId,
+                                   @RequestParam(value = "turmaId", required = false) Long turmaId,
+                                   Model model, @ModelAttribute("mensagem") String mensagem) {
+        if (alunoId != null) {
+            model.addAttribute("matriculas", matriculaRepository.findByAluno_Id(alunoId));
+            model.addAttribute("alunoId", alunoId);
+        } else if (turmaId != null) {
+            model.addAttribute("matriculas", matriculaRepository.findByTurma_Id(turmaId));
+            model.addAttribute("turmaId", turmaId);
+        } else {
+            model.addAttribute("matriculas", matriculaRepository.findAll());
+        }
+        model.addAttribute("alunos", alunoRepository.findAll());
+        model.addAttribute("turmas", turmaRepository.findAll());
+        model.addAttribute("mensagem", mensagem);
         return "matricula-list";
     }
 
@@ -36,7 +50,7 @@ public class MatriculaController {
     }
 
     @PostMapping
-    public String salvarMatricula(@ModelAttribute MatriculaFormDTO matriculaForm) {
+    public String salvarMatricula(@ModelAttribute MatriculaFormDTO matriculaForm, RedirectAttributes redirectAttributes) {
         Matricula matricula = new Matricula();
         matricula.setId(matriculaForm.getId());
         matricula.setDataMatricula(matriculaForm.getDataMatricula());
@@ -44,6 +58,11 @@ public class MatriculaController {
         matricula.setAluno(alunoRepository.findById(matriculaForm.getAluno()).orElse(null));
         matricula.setTurma(turmaRepository.findById(matriculaForm.getTurma()).orElse(null));
         matriculaRepository.save(matricula);
+        if (matriculaForm.getId() == null) {
+            redirectAttributes.addFlashAttribute("mensagem", "Matrícula realizada com sucesso!");
+        } else {
+            redirectAttributes.addFlashAttribute("mensagem", "Matrícula atualizada com sucesso!");
+        }
         return "redirect:/matriculas";
     }
 
@@ -68,8 +87,9 @@ public class MatriculaController {
     }
 
     @GetMapping("/remover/{id}")
-    public String removerMatricula(@PathVariable Long id) {
+    public String removerMatricula(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         matriculaRepository.deleteById(id);
+        redirectAttributes.addFlashAttribute("mensagem", "Matrícula cancelada com sucesso!");
         return "redirect:/matriculas";
     }
 } 

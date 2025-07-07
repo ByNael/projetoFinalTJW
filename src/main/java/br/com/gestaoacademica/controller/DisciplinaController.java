@@ -19,8 +19,14 @@ public class DisciplinaController {
     private DisciplinaRepository disciplinaRepository;
 
     @GetMapping
-    public String listarDisciplinas(Model model) {
-        model.addAttribute("disciplinas", disciplinaRepository.findAll());
+    public String listarDisciplinas(@RequestParam(value = "busca", required = false) String busca, Model model, @ModelAttribute("mensagem") String mensagem) {
+        if (busca != null && !busca.isEmpty()) {
+            model.addAttribute("disciplinas", disciplinaRepository.findByNomeContainingIgnoreCase(busca));
+            model.addAttribute("busca", busca);
+        } else {
+            model.addAttribute("disciplinas", disciplinaRepository.findAll());
+        }
+        model.addAttribute("mensagem", mensagem);
         return "disciplina-list";
     }
 
@@ -38,6 +44,9 @@ public class DisciplinaController {
         Disciplina disciplina = new Disciplina();
         disciplina.setId(disciplinaDTO.getId());
         disciplina.setNome(disciplinaDTO.getNome());
+        disciplina.setCodigo(disciplinaDTO.getCodigo());
+        disciplina.setEmenta(disciplinaDTO.getEmenta());
+        disciplina.setCargaHoraria(disciplinaDTO.getCargaHoraria());
         // Se houver outros campos no DTO, adicionar aqui
         disciplinaRepository.save(disciplina);
         if (disciplinaDTO.getId() == null) {
@@ -55,6 +64,9 @@ public class DisciplinaController {
             DisciplinaDTO disciplinaDTO = new DisciplinaDTO();
             disciplinaDTO.setId(disciplina.get().getId());
             disciplinaDTO.setNome(disciplina.get().getNome());
+            disciplinaDTO.setCodigo(disciplina.get().getCodigo());
+            disciplinaDTO.setEmenta(disciplina.get().getEmenta());
+            disciplinaDTO.setCargaHoraria(disciplina.get().getCargaHoraria());
             // Se houver outros campos no DTO, adicionar aqui
             model.addAttribute("disciplina", disciplinaDTO);
             return "disciplina-form";
@@ -64,8 +76,9 @@ public class DisciplinaController {
     }
 
     @GetMapping("/remover/{id}")
-    public String removerDisciplina(@PathVariable Long id) {
+    public String removerDisciplina(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         disciplinaRepository.deleteById(id);
+        redirectAttributes.addFlashAttribute("mensagem", "Disciplina removida com sucesso!");
         return "redirect:/disciplinas";
     }
 } 

@@ -11,6 +11,7 @@ public class Disciplina {
     private String nome;
     private String ementa;
     private Integer cargaHoraria;
+    private String codigo;
 
     // Getters e Setters
     public Long getId() { return id; }
@@ -21,4 +22,6 @@ public class Disciplina {
     public void setEmenta(String ementa) { this.ementa = ementa; }
     public Integer getCargaHoraria() { return cargaHoraria; }
     public void setCargaHoraria(Integer cargaHoraria) { this.cargaHoraria = cargaHoraria; }
+    public String getCodigo() { return codigo; }
+    public void setCodigo(String codigo) { this.codigo = codigo; }
 } 

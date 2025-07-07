@@ -13,6 +13,21 @@
         <a th:href="@{/matriculas}">Matrículas</a>
     </nav>
     <h1>Matrículas</h1>
+    <form th:action="@{/matriculas}" method="get" style="margin-bottom: 10px;">
+        <label>Filtrar por Aluno:</label>
+        <select name="alunoId">
+            <option value="">Todos</option>
+            <option th:each="aluno : ${alunos}" th:value="${aluno.id}" th:text="${aluno.nome}" th:selected="${alunoId != null and alunoId == aluno.id}"></option>
+        </select>
+        <label>Filtrar por Turma:</label>
+        <select name="turmaId">
+            <option value="">Todas</option>
+            <option th:each="turma : ${turmas}" th:value="${turma.id}" th:text="${turma.disciplina.nome} + ' - ' + ${turma.semestre}" th:selected="${turmaId != null and turmaId == turma.id}"></option>
+        </select>
+        <button type="submit">Filtrar</button>
+        <a th:href="@{/matriculas}">Limpar</a>
+    </form>
+    <div th:if="${mensagem}" style="color: green; font-weight: bold; margin-bottom: 10px;">[[${mensagem}]]</div>
     <a th:href="@{/matriculas/nova}">Nova Matrícula</a>
     <table border="1">
         <thead>

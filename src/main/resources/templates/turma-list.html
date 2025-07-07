@@ -13,6 +13,12 @@
         <a th:href="@{/matriculas}">Matrículas</a>
     </nav>
     <h1>Turmas</h1>
+    <form th:action="@{/turmas}" method="get" style="margin-bottom: 10px;">
+        <input type="text" name="busca" th:value="${busca}" placeholder="Buscar por semestre ou professor..." />
+        <button type="submit">Buscar</button>
+        <a th:href="@{/turmas}">Limpar</a>
+    </form>
+    <div th:if="${mensagem}" style="color: green; font-weight: bold; margin-bottom: 10px;">[[${mensagem}]]</div>
     <a th:href="@{/turmas/nova}">Nova Turma</a>
     <table border="1">
         <thead>
