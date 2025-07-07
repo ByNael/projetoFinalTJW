@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Disciplinas</title>
+</head>
+<body>
+    <nav>
+        <a th:href="@{/alunos}">Alunos</a> |
+        <a th:href="@{/professores}">Professores</a> |
+        <a th:href="@{/disciplinas}">Disciplinas</a> |
+        <a th:href="@{/turmas}">Turmas</a> |
+        <a th:href="@{/matriculas}">Matrículas</a>
+    </nav>
+    <h1>Disciplinas</h1>
+    <a th:href="@{/disciplinas/novo}">Nova Disciplina</a>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Ementa</th>
+                <th>Carga Horária</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="disciplina : ${disciplinas}">
+                <td th:text="${disciplina.id}"></td>
+                <td th:text="${disciplina.nome}"></td>
+                <td th:text="${disciplina.ementa}"></td>
+                <td th:text="${disciplina.cargaHoraria}"></td>
+                <td>
+                    <a th:href="@{'/disciplinas/editar/' + ${disciplina.id}}">Editar</a>
+                    <a th:href="@{'/disciplinas/remover/' + ${disciplina.id}}" onclick="return confirm('Tem certeza que deseja remover?');">Remover</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html> 

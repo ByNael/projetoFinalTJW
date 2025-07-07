@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Professores</title>
+</head>
+<body>
+    <nav>
+        <a th:href="@{/alunos}">Alunos</a> |
+        <a th:href="@{/professores}">Professores</a> |
+        <a th:href="@{/disciplinas}">Disciplinas</a> |
+        <a th:href="@{/turmas}">Turmas</a> |
+        <a th:href="@{/matriculas}">Matrículas</a>
+    </nav>
+    <h1>Professores</h1>
+    <form th:action="@{/professores}" method="get" style="margin-bottom: 10px;">
+        <input type="text" name="busca" th:value="${busca}" placeholder="Buscar por nome..." />
+        <button type="submit">Buscar</button>
+        <a th:href="@{/professores}">Limpar</a>
+    </form>
+    <div th:if="${mensagem}" style="color: green; font-weight: bold; margin-bottom: 10px;">[[${mensagem}]]</div>
+    <a th:href="@{/professores/novo}">Novo Professor</a>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Área de Atuação</th>
+                <th>Email</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="professor : ${professores}">
+                <td th:text="${professor.id}"></td>
+                <td th:text="${professor.nome}"></td>
+                <td th:text="${professor.areaAtuacao}"></td>
+                <td th:text="${professor.email}"></td>
+                <td>
+                    <a th:href="@{'/professores/editar/' + ${professor.id}}">Editar</a>
+                    <a th:href="@{'/professores/remover/' + ${professor.id}}" onclick="return confirm('Tem certeza que deseja remover?');">Remover</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html> 

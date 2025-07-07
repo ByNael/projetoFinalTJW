@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Disciplina</title>
+</head>
+<body>
+    <nav>
+        <a th:href="@{/alunos}">Alunos</a> |
+        <a th:href="@{/professores}">Professores</a> |
+        <a th:href="@{/disciplinas}">Disciplinas</a> |
+        <a th:href="@{/turmas}">Turmas</a> |
+        <a th:href="@{/matriculas}">Matrículas</a>
+    </nav>
+    <h1 th:text="${disciplina.id == null} ? 'Nova Disciplina' : 'Editar Disciplina'"></h1>
+    <form th:action="@{/disciplinas}" th:object="${disciplina}" method="post">
+        <input type="hidden" th:field="*{id}" />
+        <label>Nome:</label>
+        <input type="text" th:field="*{nome}" required/>
+        <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" style="color:red"></div><br/>
+        <label>Código:</label>
+        <input type="text" th:field="*{codigo}" required/>
+        <div th:if="${#fields.hasErrors('codigo')}" th:errors="*{codigo}" style="color:red"></div><br/>
+        <button type="submit">Salvar</button>
+        <a th:href="@{/disciplinas}">Cancelar</a>
+    </form>
+</body>
+</html> 

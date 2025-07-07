@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Matrículas</title>
+</head>
+<body>
+    <nav>
+        <a th:href="@{/alunos}">Alunos</a> |
+        <a th:href="@{/professores}">Professores</a> |
+        <a th:href="@{/disciplinas}">Disciplinas</a> |
+        <a th:href="@{/turmas}">Turmas</a> |
+        <a th:href="@{/matriculas}">Matrículas</a>
+    </nav>
+    <h1>Matrículas</h1>
+    <a th:href="@{/matriculas/nova}">Nova Matrícula</a>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Aluno</th>
+                <th>Turma</th>
+                <th>Data</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="matricula : ${matriculas}">
+                <td th:text="${matricula.id}"></td>
+                <td th:text="${matricula.aluno.nome}"></td>
+                <td th:text="${matricula.turma.disciplina.nome} + ' - ' + ${matricula.turma.semestre}"></td>
+                <td th:text="${matricula.dataMatricula}"></td>
+                <td th:text="${matricula.status}"></td>
+                <td>
+                    <a th:href="@{'/matriculas/editar/' + ${matricula.id}}">Editar</a>
+                    <a th:href="@{'/matriculas/remover/' + ${matricula.id}}" onclick="return confirm('Tem certeza que deseja remover?');">Remover</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html> 

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Alunos</title>
+</head>
+<body>
+    <nav>
+        <a th:href="@{/alunos}">Alunos</a> |
+        <a th:href="@{/professores}">Professores</a> |
+        <a th:href="@{/disciplinas}">Disciplinas</a> |
+        <a th:href="@{/turmas}">Turmas</a> |
+        <a th:href="@{/matriculas}">Matrículas</a>
+    </nav>
+    <h1>Alunos</h1>
+    <form th:action="@{/alunos}" method="get" style="margin-bottom: 10px;">
+        <input type="text" name="busca" th:value="${busca}" placeholder="Buscar por nome..." />
+        <button type="submit">Buscar</button>
+        <a th:href="@{/alunos}">Limpar</a>
+    </form>
+    <div th:if="${mensagem}" style="color: green; font-weight: bold; margin-bottom: 10px;">[[${mensagem}]]</div>
+    <a th:href="@{/alunos/novo}">Novo Aluno</a>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Data de Nascimento</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="aluno : ${alunos}">
+                <td th:text="${aluno.id}"></td>
+                <td th:text="${aluno.nome}"></td>
+                <td th:text="${aluno.email}"></td>
+                <td th:text="${aluno.dataNascimento}"></td>
+                <td>
+                    <a th:href="@{'/alunos/editar/' + ${aluno.id}}">Editar</a>
+                    <a th:href="@{'/alunos/remover/' + ${aluno.id}}" onclick="return confirm('Tem certeza que deseja remover?');">Remover</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html> 

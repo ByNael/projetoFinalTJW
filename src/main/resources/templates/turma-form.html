@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Turma</title>
+</head>
+<body>
+    <nav>
+        <a th:href="@{/alunos}">Alunos</a> |
+        <a th:href="@{/professores}">Professores</a> |
+        <a th:href="@{/disciplinas}">Disciplinas</a> |
+        <a th:href="@{/turmas}">Turmas</a> |
+        <a th:href="@{/matriculas}">Matrículas</a>
+    </nav>
+    <h1 th:text="${turmaForm.id == null} ? 'Nova Turma' : 'Editar Turma'"></h1>
+    <form th:action="@{/turmas}" th:object="${turmaForm}" method="post">
+        <input type="hidden" th:field="*{id}" />
+        <label>Disciplina:</label>
+        <select th:field="*{disciplina}" required>
+            <option th:each="disciplina : ${disciplinas}" th:value="${disciplina.id}" th:text="${disciplina.nome}"></option>
+        </select><br/>
+        <label>Professor:</label>
+        <select th:field="*{professor}" required>
+            <option th:each="professor : ${professores}" th:value="${professor.id}" th:text="${professor.nome}"></option>
+        </select><br/>
+        <label>Semestre:</label>
+        <input type="text" th:field="*{semestre}" required/><br/>
+        <button type="submit">Salvar</button>
+        <a th:href="@{/turmas}">Cancelar</a>
+    </form>
+</body>
+</html> 
